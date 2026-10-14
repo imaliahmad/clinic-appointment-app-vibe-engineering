@@ -63,7 +63,9 @@ def main() -> int:
     if npx is None:
         sys.exit("npx not found. Install Node.js to run Newman.")
     if port_in_use(HOST, PORT):
-        sys.exit(f"Port {PORT} is already in use. Stop whatever is running there and try again.")
+        sys.exit(
+            f"Port {PORT} is already in use. Stop whatever is running there and try again."
+        )
 
     env = os.environ.copy()
     env["CLINIC_DATABASE"] = str(DB_PATH)
@@ -77,7 +79,18 @@ def main() -> int:
 
     print(f"Starting server on http://{HOST}:{PORT} with {DB_PATH.name} ...")
     server = subprocess.Popen(
-        [sys.executable, "-m", "flask", "--app", "app", "run", "--host", HOST, "--port", str(PORT)],
+        [
+            sys.executable,
+            "-m",
+            "flask",
+            "--app",
+            "app",
+            "run",
+            "--host",
+            HOST,
+            "--port",
+            str(PORT),
+        ],
         cwd=ROOT,
         env=env,
         stdout=subprocess.DEVNULL,
@@ -86,14 +99,22 @@ def main() -> int:
     try:
         if not wait_for_port(HOST, PORT, STARTUP_TIMEOUT_SECONDS):
             print("Server did not start. Run it by hand to see the error:")
-            print(f"  $env:CLINIC_DATABASE='{DB_PATH}'; uv run flask --app app run --port {PORT}")
+            print(
+                f"  $env:CLINIC_DATABASE='{DB_PATH}'; uv run flask --app app run --port {PORT}"
+            )
             return 1
 
         newman = subprocess.run(
             [
-                npx, "--yes", "newman@6", "run", str(COLLECTION),
-                "-e", str(ENVIRONMENT),
-                "--env-var", f"baseUrl=http://{HOST}:{PORT}",
+                npx,
+                "--yes",
+                "newman@6",
+                "run",
+                str(COLLECTION),
+                "-e",
+                str(ENVIRONMENT),
+                "--env-var",
+                f"baseUrl=http://{HOST}:{PORT}",
             ],
             cwd=ROOT,
         )

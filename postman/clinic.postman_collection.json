@@ -20,6 +20,22 @@
               }
             }
           ]
+        },
+        {
+          "name": "Unknown API path returns JSON 404",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/does-not-exist" },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"status 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"status field is false\", () => pm.expect(pm.response.json().status).to.equal(false));"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
