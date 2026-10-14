@@ -29,6 +29,9 @@ uv run flask --app app run --debug
 ```
 Open http://127.0.0.1:5000
 
+`seed` adds sample doctors, patients and the logins `admin/admin123`, `reception/reception123`,
+`drali/doctor123`, `drsara/doctor123`. These are for local development only.
+
 ## Test
 ```powershell
 uv run pytest -q                       # unit + API tests
