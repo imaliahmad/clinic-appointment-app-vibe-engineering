@@ -49,6 +49,9 @@ This is the target; files appear as features add them.
 Database guard against double booking: a **partial unique index** on
 `appointments(doctor_id, start_at) WHERE status != 'cancelled'`.
 
+`init-db` runs `schema.sql` with `CREATE ... IF NOT EXISTS`: safe to run twice, never deletes data.
+There are no migrations: after a schema change, delete the database file and run `init-db` (and `seed`) again.
+
 ## Configuration (environment variables)
 | Variable | Default | Used for |
 |---|---|---|
