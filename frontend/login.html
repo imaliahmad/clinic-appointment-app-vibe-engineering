@@ -4,9 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Clinic Booking</title>
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
   <h1>Clinic Booking</h1>
-  <p>Login comes in feature 3.</p>
+  <form id="login-form">
+    <label>Username
+      <input name="username" autocomplete="username" required autofocus>
+    </label>
+    <label>Password
+      <input name="password" type="password" autocomplete="current-password" required>
+    </label>
+    <p id="message" class="error" role="alert"></p>
+    <button type="submit">Log in</button>
+  </form>
+  <script type="module" src="/static/js/login.js"></script>
 </body>
 </html>
