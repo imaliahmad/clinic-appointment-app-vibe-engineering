@@ -121,3 +121,4 @@ All responses: `{"status", "message", "data", "errors"}`.
 | `/doctor` | `doctor.html` | doctor |
 | `/admin` | `admin.html` | admin |
 A signed-in user opening another role's page is redirected to their own page.
+CSS and JS are served from `/static/css/...` and `/static/js/...` (only those two folders of `frontend/`, never the HTML files).

@@ -29,3 +29,8 @@ def insert_user(
         (username, password_hash, role, doctor_id, created_at),
     )
     return cursor.lastrowid
+
+
+def get_user_by_id(user_id: int) -> dict[str, Any] | None:
+    row = get_db().execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+    return dict(row) if row else None

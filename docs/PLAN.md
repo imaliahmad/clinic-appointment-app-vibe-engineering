@@ -7,7 +7,7 @@ Doctors see their schedule and record the outcome of each visit. Admin sees two 
 ## Features (build in this order, one branch each)
 - [x] 1. Skeleton: app factory, `config.py`, `clock.py`, `responses.py`, `db.py`, `schema.sql` (all tables + partial unique index), `init-db`, `tests/api/conftest.py` (temporary DB + fixed-clock fixture), `scripts/postman_run.py` passing on the Health request
 - [x] 2. Seed: 3 doctors (different slot lengths and weekly hours; at least one doctor works all 7 days so Postman runs work on any date), users `admin/admin123`, `reception/reception123`, `drali/doctor123`, `drsara/doctor123` (linked to doctors), 5 patients. Safe to run twice. Local dev only.
-- [ ] 3. Login & roles: login/logout/me, `role_required`, page shells for reception/doctor/admin, redirect by role after login, wrong-role pages redirect to the user's own page
+- [x] 3. Login & roles: login/logout/me, `role_required`, page shells for reception/doctor/admin, redirect by role after login, wrong-role pages redirect to the user's own page
 - [ ] 4. Patients: search by phone, register a new patient (phone unique, digits only), patient's appointment history (API + reception UI)
 - [ ] 5. Available slots: `app/rules/slot_rules.py` (pure, unit-tested) + `GET /api/doctors` and `GET /api/doctors/<id>/slots?date=` (API only)
 - [ ] 6. Book & cancel: `app/rules/appointment_rules.py` (overlap + status rules), create appointment (no double booking, no patient overlap), cancel with reason (API + reception booking UI)

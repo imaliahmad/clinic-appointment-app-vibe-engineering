@@ -10,20 +10,28 @@
       "item": [
         {
           "name": "Login page is served",
-          "request": { "method": "GET", "url": "{{baseUrl}}/" },
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/"
+          },
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test(\"status 200\", () => pm.response.to.have.status(200));"]
+                "exec": [
+                  "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+                ]
               }
             }
           ]
         },
         {
           "name": "Unknown API path returns JSON 404",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/does-not-exist" },
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/does-not-exist"
+          },
           "event": [
             {
               "listen": "test",
@@ -39,17 +47,165 @@
         }
       ]
     },
-    { "name": "01 Auth", "item": [] },
-    { "name": "02 Patients", "item": [] },
-    { "name": "03 Slots", "item": [] },
-    { "name": "04 Appointments", "item": [] },
-    { "name": "05 Schedules", "item": [] },
-    { "name": "06 Admin", "item": [] },
-    { "name": "07 Access checks", "item": [] }
+    {
+      "name": "01 Auth",
+      "item": [
+        {
+          "name": "Login as reception",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"reception\", \"password\": \"reception123\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"status field is true\", () => pm.expect(pm.response.json().status).to.equal(true));",
+                  "pm.test(\"role is receptionist\", () => pm.expect(pm.response.json().data.role).to.equal(\"receptionist\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login with wrong password",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"reception\", \"password\": \"wrong\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"status 401\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"status field is false\", () => pm.expect(pm.response.json().status).to.equal(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Me (logged in)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"status field is true\", () => pm.expect(pm.response.json().status).to.equal(true));",
+                  "pm.test(\"username is reception\", () => pm.expect(pm.response.json().data.username).to.equal(\"reception\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/logout"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"status field is true\", () => pm.expect(pm.response.json().status).to.equal(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Me after logout",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"status 401\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"status field is false\", () => pm.expect(pm.response.json().status).to.equal(false));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Patients",
+      "item": []
+    },
+    {
+      "name": "03 Slots",
+      "item": []
+    },
+    {
+      "name": "04 Appointments",
+      "item": []
+    },
+    {
+      "name": "05 Schedules",
+      "item": []
+    },
+    {
+      "name": "06 Admin",
+      "item": []
+    },
+    {
+      "name": "07 Access checks",
+      "item": []
+    }
   ],
   "variable": [
-    { "key": "patientId", "value": "" },
-    { "key": "appointmentId", "value": "" },
-    { "key": "bookingDate", "value": "" }
+    {
+      "key": "patientId",
+      "value": ""
+    },
+    {
+      "key": "appointmentId",
+      "value": ""
+    },
+    {
+      "key": "bookingDate",
+      "value": ""
+    }
   ]
 }

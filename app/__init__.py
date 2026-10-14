@@ -16,8 +16,9 @@ from app.responses import failure
 
 def create_app(test_config: dict[str, Any] | None = None) -> Flask:
     """Create and configure the Flask app. `test_config` overrides the environment."""
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True, static_folder=None)
     app.config.from_mapping(load_config(app.instance_path))
+    app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax")
     if test_config is not None:
         app.config.from_mapping(test_config)
 
@@ -25,11 +26,13 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
     logging.basicConfig(level=logging.INFO)
 
     from app import db, seed
+    from app.endpoints.auth_endpoints import auth_bp
     from app.endpoints.page_endpoints import page_bp
 
     db.init_app(app)
     seed.init_app(app)
     app.register_blueprint(page_bp)
+    app.register_blueprint(auth_bp)
 
     @app.errorhandler(404)
     def not_found(error: NotFound) -> ResponseReturnValue:
