@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "Clinic Booking API",
+    "description": "Run folders in order. Login requests set the session cookie for the requests after them.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "00 Health",
+      "item": [
+        {
+          "name": "Login page is served",
+          "request": { "method": "GET", "url": "{{baseUrl}}/" },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test(\"status 200\", () => pm.response.to.have.status(200));"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    { "name": "01 Auth", "item": [] },
+    { "name": "02 Patients", "item": [] },
+    { "name": "03 Slots", "item": [] },
+    { "name": "04 Appointments", "item": [] },
+    { "name": "05 Schedules", "item": [] },
+    { "name": "06 Admin", "item": [] },
+    { "name": "07 Access checks", "item": [] }
+  ],
+  "variable": [
+    { "key": "patientId", "value": "" },
+    { "key": "appointmentId", "value": "" },
+    { "key": "bookingDate", "value": "" }
+  ]
+}
